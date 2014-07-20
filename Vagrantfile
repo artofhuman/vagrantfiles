@@ -50,13 +50,6 @@ Vagrant.configure("2") do |config|
             }
           }
         ]
-      },
-      'oh_my_zsh' => {
-        'users' => [{
-          :login => 'vagrant',
-          :theme => 'mortalscumbag',
-          :plugins => ['gem', 'git', 'rails3', 'redis-cli', 'ruby', 'heroku', 'rake', 'rbenv', 'capistrano']
-        }]
       }
     }
   end
