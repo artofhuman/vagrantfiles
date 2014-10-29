@@ -10,7 +10,7 @@ Vagrant.configure("2") do |config|
   config.vm.network :private_network, ip: "10.255.255.10"
   config.vm.synced_folder "~/code", "/code"#, :nfs => true
 
-  [4000, 3000, 4567, 5432, 9292].each do |port|
+  [3000].each do |port|
     config.vm.network :forwarded_port, guest: port, host: port
   end
 
@@ -22,11 +22,10 @@ Vagrant.configure("2") do |config|
     chef.add_recipe 'postgresql::contrib'
     chef.add_recipe 'postgresql::server_dev'
 
-    chef.add_recipe 'ruby_build'
-    chef.add_recipe 'rbenv::user'
+    chef.add_recipe 'rvm::vagrant'
     chef.add_recipe 'redis::install_from_package'
-    chef.add_recipe 'oh_my_zsh'
     chef.add_recipe 'locale'
+
     chef.json = {
       'postgresql' => {
         "version" => "9.2",
@@ -39,18 +38,16 @@ Vagrant.configure("2") do |config|
             "login" => true
           }
         ]
-      },
-      'rbenv' => {
-        'user_installs' => [
-          { 'user' => 'vagrant',
-            'rubies' => ['2.0.0-p247'],
-            'global' => '2.0.0-p247',
-            'gems' => {
-              '2.0.0-p247' => %w(bundler pg).collect{|gem_name| { 'name' => gem_name } }
-            }
-          }
-        ]
       }
+      #'rvm' => {
+        #'user' => 'vagrant',
+        #'user_installs' => [
+          #{
+            #'user' => 'vagrant',
+            #'rubies' => ['2.0.0-p247'],
+          #}
+        #]
+      #}
     }
   end
 end
